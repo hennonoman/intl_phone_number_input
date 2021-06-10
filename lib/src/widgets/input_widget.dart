@@ -13,6 +13,7 @@ import 'package:intl_phone_number_input/src/utils/test/test_helper.dart';
 import 'package:intl_phone_number_input/src/utils/util.dart';
 import 'package:intl_phone_number_input/src/utils/widget_view.dart';
 import 'package:intl_phone_number_input/src/widgets/selector_button.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 /// Enum for [SelectorButton] types.
 ///
@@ -223,8 +224,11 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
   /// the `ValueCallback` [widget.onInputValidated]
   void phoneNumberControllerListener() {
     if (this.mounted) {
+      
+      // String parsedPhoneNumberString =
+      //     controller!.text.replaceAll(RegExp(r'[^\d+]'), '');
       String parsedPhoneNumberString =
-          controller!.text.replaceAll(RegExp(r'[^\d+]'), '');
+         NumberUtility.changeDigit(controller!.text, NumStrLanguage.English);
 
       getParsedPhoneNumber(parsedPhoneNumberString, this.country?.alpha2Code)
           .then((phoneNumber) {
@@ -439,18 +443,18 @@ class _InputWidgetView
               validator: widget.validator ?? state.validator,
               onSaved: state.onSaved,
               scrollPadding: widget.scrollPadding,
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(widget.maxLength),
-                widget.formatInput
-                    ? AsYouTypeFormatter(
-                        isoCode: countryCode,
-                        dialCode: dialCode,
-                        onInputFormatted: (TextEditingValue value) {
-                          state.controller!.value = value;
-                        },
-                      )
-                    : FilteringTextInputFormatter.digitsOnly,
-              ],
+              // inputFormatters: [
+              //   LengthLimitingTextInputFormatter(widget.maxLength),
+              //   // widget.formatInput
+              //   //     ? AsYouTypeFormatter(
+              //   //         isoCode: countryCode,
+              //   //         dialCode: dialCode,
+              //   //         onInputFormatted: (TextEditingValue value) {
+              //   //           state.controller!.value = value;
+              //   //         },
+              //   //       )
+              //   //     : FilteringTextInputFormatter.digitsOnly,
+              // ],
               onChanged: state.onChanged,
             ),
           )
